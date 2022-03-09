@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{DB0EEE62-3C49-DB64-88D9-BB668730FFDD}</ProjectGuid>
+    <ProjectGuid>{1B6CB3B1-6FDA-E6C2-2AA2-86E3F0B384C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -61,6 +61,7 @@
     <Compile Include="Assets\2D Animation Demo\Scripts\Bullet.cs" />
     <Compile Include="Assets\2D Animation Demo\Scripts\EnemyManager.cs" />
     <Compile Include="Assets\2D Animation Demo\Scripts\Player.cs" />
+    <Compile Include="Assets\2D Animation Demo\Scripts\Barricade.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

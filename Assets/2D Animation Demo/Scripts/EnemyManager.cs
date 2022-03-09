@@ -11,18 +11,18 @@ public class EnemyManager : MonoBehaviour
     public scoreManager scoreManager;
     public Enemy prefab;
 
-    public int numEnemiesAcross = 3;
-    public int columns = 3;
+    public static int numEnemiesAcross = 3;
+    public static int columns = 3;
 
     public float speed=5f;
     public float shootingRate=1.5f;
 
     [FormerlySerializedAs("bullet")] public GameObject bulletPrefab;
 
-    public int amountDead { get; private set; }
-    //public int amountIn = numEnemiesAcross * columns;
+    public static int amountDead { get; private set; }
+    public static int amountIn = numEnemiesAcross * columns;
     
-    //public int amountLiving = amountIn - amountDead;
+    public int amountLiving = amountIn - amountDead;
 
     private Vector3 direction = Vector2.right;
     // Start is called before the first frame update
@@ -31,8 +31,8 @@ public class EnemyManager : MonoBehaviour
     {
         for(int row=0; row < numEnemiesAcross; row++)
         {
-            float width = 2.0f * (this.columns - 1);
-            float height= 2.0f*(this.numEnemiesAcross-1);
+            float width = 2.0f * (columns - 1);
+            float height= 2.0f*(numEnemiesAcross-1);
             Vector2 centering= new Vector2(-width/2, -height/2);
             Vector3 rowPosition = new Vector3(centering.x, centering.y + (row * 2.0f), 0.0f);
             
@@ -48,7 +48,7 @@ public class EnemyManager : MonoBehaviour
     }
     void Start()
     {
-        //InvokeRepeating(nameof(shootBack), this.shootingRate, this.shootingRate);
+        InvokeRepeating(nameof(shootBack), this.shootingRate, this.shootingRate);
     }
 
     // Update is called once per frame
@@ -87,7 +87,7 @@ public class EnemyManager : MonoBehaviour
 
     }
 
-    /*private void shootBack()
+    private void shootBack()
     {
         foreach (Transform enemy in this.transform)
         {
@@ -103,7 +103,7 @@ public class EnemyManager : MonoBehaviour
         }
 
     }
-    */
+    
     void OnEnemyDied(Enemy enemy)
     {
         enemy.OnEnemyDestroyed -= OnEnemyDied;

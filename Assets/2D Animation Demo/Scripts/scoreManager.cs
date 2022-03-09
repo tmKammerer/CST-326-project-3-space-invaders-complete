@@ -37,7 +37,22 @@ public class scoreManager : MonoBehaviour
         }
         
         scoreBoard.text = scores;
-        highScoreBoard.text = hiScore;
+        if (highScore <= 9)
+        {
+            highScoreBoard.text = "000" + PlayerPrefs.GetInt("score").ToString();
+        }
+        else if (highScore >= 10 && highScore <= 99)
+        {
+            highScoreBoard.text = "00" + PlayerPrefs.GetInt("score").ToString();
+        }
+        else if (highScore >= 100 && highScore <= 999)
+        {
+            highScoreBoard.text = "0" + PlayerPrefs.GetInt("score").ToString();
+        }
+        else
+        {
+            highScoreBoard.text = PlayerPrefs.GetInt("score").ToString();
+        }
     }
 
     // Update is called once per frame
