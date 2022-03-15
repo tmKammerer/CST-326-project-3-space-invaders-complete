@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -9,12 +10,12 @@ public class EnemyManager : MonoBehaviour
     public float widthPerEnemy = 3f;
     public Transform enemyRoot;
     public scoreManager scoreManager;
-    public Enemy prefab;
+    public Enemy[] prefab;
 
-    public static int numEnemiesAcross = 3;
-    public static int columns = 3;
+    public static int numEnemiesAcross = 2;
+    public static int columns = 7;
 
-    public float speed=5f;
+    public float speed=1f;
     public float shootingRate=1.5f;
 
     [FormerlySerializedAs("bullet")] public GameObject bulletPrefab;
@@ -25,6 +26,8 @@ public class EnemyManager : MonoBehaviour
     public int amountLiving = amountIn - amountDead;
 
     private Vector3 direction = Vector2.right;
+
+    public AudioClip pain;
     // Start is called before the first frame update
 
     private void Awake()
@@ -38,11 +41,14 @@ public class EnemyManager : MonoBehaviour
             
             for(int column=0; column< columns; column++)
             {
-                Enemy enemy = Instantiate(prefab, this.transform);
-                enemy.OnEnemyDestroyed += OnEnemyDied;
-                Vector3 position = rowPosition;
-                position.x += column * 2.0f;
-                enemy.transform.position = position;
+                
+                    Enemy enemy = Instantiate(prefab[row], this.transform);
+                    enemy.OnEnemyDestroyed += OnEnemyDied;
+                    Vector3 position = rowPosition;
+                    position.x += column * 2.0f;
+                    enemy.transform.localPosition = position;
+                
+                
             }
         }
     }
@@ -106,7 +112,16 @@ public class EnemyManager : MonoBehaviour
     
     void OnEnemyDied(Enemy enemy)
     {
+        AudioSource roar = GetComponent<AudioSource>();
+        roar.clip = pain;
+        roar.Play();
         enemy.OnEnemyDestroyed -= OnEnemyDied;
+        amountDead++;
         scoreManager.AddPoints(enemy.pointVal);
+        if (amountDead == amountIn)
+        {
+            Destroy(this.gameObject);
+            SceneManager.LoadScene("Credits", LoadSceneMode.Additive);
+        }
     }
 }

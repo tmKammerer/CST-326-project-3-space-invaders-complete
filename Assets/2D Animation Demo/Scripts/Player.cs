@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     public float speed = 6f;
 
     [FormerlySerializedAs("shottingOffset")] public Transform shootOffsetTransform;
+
+    public AudioClip deadSound;
 
     private Animator playerAnimator;
     private static readonly int Shoot = Animator.StringToHash("Shoot");
@@ -23,7 +26,7 @@ public class Player : MonoBehaviour
         
       if (Input.GetKeyDown(KeyCode.Space))
       {
-            playerAnimator.SetTrigger(Shoot);
+           playerAnimator.SetTrigger(Shoot);
         GameObject shot = Instantiate(bulletPrefab, shootOffsetTransform.position, Quaternion.identity);
         Debug.Log("Bang!");
 
@@ -40,13 +43,23 @@ public class Player : MonoBehaviour
 
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    
+    
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Ow I die!");
+        AudioSource dead=GetComponent<AudioSource>();
+
+        dead.clip = deadSound;
+
+        dead.Play();
+
+            Debug.Log("Oy vey I die!");
+
+
+            playerAnimator.SetTrigger("Death");
         
-
-        playerAnimator.SetTrigger("Death");
-
+        SceneManager.LoadScene("Credits", LoadSceneMode.Additive);
         Destroy(this.gameObject, 0.5f);
+        
     }
 }

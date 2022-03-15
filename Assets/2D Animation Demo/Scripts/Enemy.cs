@@ -15,13 +15,19 @@ public class Enemy : MonoBehaviour
         enemyAnim = GetComponent<Animator>();
     }
     // Start is called before the first frame update
-    void OnCollisionEnter2D(Collision2D collision)
+    
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Ouch!");
-        OnEnemyDestroyed?.Invoke(this);
+        if (collision.gameObject.tag == "Bullet")
+        {
+            OnEnemyDestroyed?.Invoke(this);
 
-        enemyAnim.SetTrigger("Death");
-       
-        Destroy(this.gameObject, 0.5f);
+            enemyAnim.SetTrigger("Death");
+
+            this.gameObject.SetActive(false);
+
+            Destroy(this.gameObject, 0.5f);
+        }
     }
 }
